@@ -36,7 +36,7 @@ func main() {
 	router.HandleFunc("/karya/{id}", auth.JWTAuth(karya.DeleteKarya)).Methods("DELETE")
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://127.0.0.1:5500"},
+		AllowedOrigins: []string{"*"},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowedHeaders: []string{"Content-Type", "Authorization"},
 		Debug:          true,
@@ -44,6 +44,6 @@ func main() {
 
 	handler := c.Handler(router)
 
-	fmt.Println("Server is running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	fmt.Println("Server is running on http://localhost:8020")
+	log.Fatal(http.ListenAndServe(":8020", handler))
 }
