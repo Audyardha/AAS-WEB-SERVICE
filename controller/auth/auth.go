@@ -27,6 +27,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		log.Printf("Error decoding request body: %v", err)
 		return
 	}
 
@@ -35,6 +36,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil && err != sql.ErrNoRows {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		log.Printf("Error checking existing user: %v", err)
 		return
 	}
 

@@ -1,6 +1,7 @@
 package pelukis
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -165,4 +166,34 @@ func DeletePelukis(w http.ResponseWriter, r *http.Request) {
 		"mesage": "Pelukis deleted successfully",
 	})
 
+}
+
+// func GetPelukisByID handles GET request to fetch a single pelukis by its ID
+func GetPelukisByID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idStr, ok := vars["id"]
+	if !ok {
+		http.Error(w, "ID not provided", http.StatusBadRequest)
+		return
+	}
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
+		return
+	}
+
+	var pelukis pelukis.Pelukis
+	query := "SELECT * FROM pelukis WHERE id = ?"
+	err = database.DB.QueryRow(query, id).Scan(&pelukis.PelukisId, &pelukis.Nama, &pelukis.Alamat)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Pelukis not found", http.StatusNotFound)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(pelukis)
 }

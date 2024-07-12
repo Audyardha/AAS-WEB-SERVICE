@@ -1,6 +1,7 @@
 package karya
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -166,4 +167,34 @@ func DeleteKarya(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"message": "Karya deleted successfully",
 	})
+}
+
+// GetKaryaByID handles GET request to fetch a sigle karya by its ID
+func GetKaryaByID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idStr, ok := vars["id"]
+	if !ok {
+		http.Error(w, "ID not provided", http.StatusBadRequest)
+		return
+	}
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
+		return
+	}
+
+	var karya karya.Karya
+	query := "SELECT * FROM karya WHERE id = ?"
+	err = database.DB.QueryRow(query, id).Scan(&karya.KaryaId, &karya.Judul, &karya.PelukisId, &karya.TahunDibuat, &karya.Media)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Karya not found", http.StatusNotFound)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(karya)
 }

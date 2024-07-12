@@ -25,12 +25,14 @@ func main() {
 
 	//Pelukis routes
 	router.HandleFunc("/pelukis", pelukis.GetPelukis).Methods("GET")
+	router.HandleFunc("/pelukis/{id}", pelukis.GetPelukisByID).Methods("GET")
 	router.HandleFunc("/pelukis", pelukis.PostPelukis).Methods("POST")
 	router.HandleFunc("/pelukis/{id}", auth.JWTAuth(pelukis.PutPelukis)).Methods("PUT")
 	router.HandleFunc("/pelukis/{id}", auth.JWTAuth(pelukis.DeletePelukis)).Methods("DELETE")
 
 	//Karya routes
 	router.HandleFunc("/karya", karya.GetKarya).Methods("GET")
+	router.HandleFunc("/karya/{id}", karya.GetKaryaByID).Methods("GET")
 	router.HandleFunc("/karya", auth.JWTAuth(karya.PostKarya)).Methods("POST")
 	router.HandleFunc("/karya/{id}", auth.JWTAuth(karya.PutKarya)).Methods("PUT")
 	router.HandleFunc("/karya/{id}", auth.JWTAuth(karya.DeleteKarya)).Methods("DELETE")
