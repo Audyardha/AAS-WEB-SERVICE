@@ -184,7 +184,7 @@ func GetKaryaByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var karya karya.Karya
-	query := "SELECT * FROM karya WHERE id = ?"
+	query := "SELECT * FROM karya WHERE KaryaId = ?"
 	err = database.DB.QueryRow(query, id).Scan(&karya.KaryaId, &karya.Judul, &karya.PelukisId, &karya.TahunDibuat, &karya.Media)
 	if err != nil {
 		if err == sql.ErrNoRows {
