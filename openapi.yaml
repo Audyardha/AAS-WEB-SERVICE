@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
-  title: AssesmenWebService
+  title: AssesmenWebService2
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: https://130.162.195.228/mhs714220020
 components:
   securitySchemes:
     bearerAuth:
@@ -13,8 +13,8 @@ paths:
   /regis:
     post:
       tags:
-        - default
-      summary: UserRegis
+        - Authentication
+      summary: User Registration
       requestBody:
         content:
           application/json:
@@ -32,8 +32,8 @@ paths:
   /login:
     post:
       tags:
-        - default
-      summary: UserLogin
+        - Authentication
+      summary: User Login
       requestBody:
         content:
           application/json:
@@ -49,19 +49,20 @@ paths:
           description: Successful response
           content:
             application/json: {}
+
   /pelukis:
     post:
       tags:
-        - default
-      summary: PelukisPost
+        - Pelukis Management
+      summary: Create a New Pelukis
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                nama: Dina
-                alamat: Carawali
+                nama: awwdyyaa nasywa
+                alamat: wajo
       security:
         - bearerAuth: []
       responses:
@@ -71,32 +72,55 @@ paths:
             application/json: {}
     get:
       tags:
-        - default
-      summary: Pelukis
+        - Pelukis Management
+      summary: Get All Pelukis
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
+
   /pelukis/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+    get:
+      tags:
+        - Pelukis Management
+      summary: Get Pelukis by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nama:
+                    type: string
+                  alamat:
+                    type: string
+                example:
+                  id: 1
+                  nama: awwdyyaa nasywa
+                  alamat: wajo
     put:
       tags:
-        - default
-      summary: PelukisUpdate
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID pelukis yang ingin diperbarui
+        - Pelukis Management
+      summary: Update Pelukis
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                nama: Egi
+                nama: audyardha
                 alamat: Cokro
       security:
         - bearerAuth: []
@@ -107,15 +131,8 @@ paths:
             application/json: {}
     delete:
       tags:
-        - default
-      summary: PelukisDelete
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID pelukis yang ingin dihapus
+        - Pelukis Management
+      summary: Delete Pelukis
       security:
         - bearerAuth: []
       responses:
@@ -123,30 +140,22 @@ paths:
           description: Successful response
           content:
             application/json: {}
+
   /karya:
-    get:
-      tags:
-        - default
-      summary: Karya
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
     post:
       tags:
-        - default
-      summary: KaryaPost
+        - Karya Management
+      summary: Create a New Karya
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                judul: audyardhaCanvas
-                pelukis_id: 6
-                tahun_dibuat: 2022
-                media: Canvas Audy
+                judul: Nasywa
+                pelukis_id: 16
+                tahun_dibuat: 2024
+                media: kanvas
       security:
         - bearerAuth: []
       responses:
@@ -154,28 +163,66 @@ paths:
           description: Successful response
           content:
             application/json: {}
+    get:
+      tags:
+        - Karya Management
+      summary: Get All Karya
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+
   /karya/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+    get:
+      tags:
+        - Karya Management
+      summary: Get Karya by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  judul:
+                    type: string
+                  pelukis_id:
+                    type: integer
+                  tahun_dibuat:
+                    type: integer
+                  media:
+                    type: string
+              example:
+                id: 1
+                judul: Nasywa
+                pelukis_id: 16
+                tahun_dibuat: 2024
+                media: kanvas
     put:
       tags:
-        - default
-      summary: KaryaUpdate
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID karya yang ingin diperbarui
+        - Karya Management
+      summary: Update Karya
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                judul: nasywa lukis
-                pelukis_id: 3
-                tahun_dibuat: 2020
-                media: Lukis dan gambar
+                judul: nasywaja
+                pelukis_id: 16
+                tahun_dibuat: 2021
+                media: Lukis
       security:
         - bearerAuth: []
       responses:
@@ -185,15 +232,8 @@ paths:
             application/json: {}
     delete:
       tags:
-        - default
-      summary: KaryaDelete
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID karya yang ingin dihapus
+        - Karya Management
+      summary: Delete Karya
       security:
         - bearerAuth: []
       responses:

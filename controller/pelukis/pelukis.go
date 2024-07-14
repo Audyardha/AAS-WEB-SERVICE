@@ -183,7 +183,7 @@ func GetPelukisByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var pelukis pelukis.Pelukis
-	query := "SELECT * FROM pelukis WHERE id = ?"
+	query := "SELECT * FROM pelukis WHERE PelukisId = ?"
 	err = database.DB.QueryRow(query, id).Scan(&pelukis.PelukisId, &pelukis.Nama, &pelukis.Alamat)
 	if err != nil {
 		if err == sql.ErrNoRows {
